@@ -9,10 +9,6 @@ ARG ARCH
 ENV LANG=tr_TR.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN echo "Building for architecture: $ARCH" && \
-    echo "OMNeT++ version: $VERSION" && \
-    echo "INET version: $INET_VERSION"
-
 RUN export DEBIAN_FRONTEND=noninteractive &&  \
     apt-get update -y && \
     apt-get upgrade -y && \
@@ -23,19 +19,17 @@ RUN export DEBIAN_FRONTEND=noninteractive &&  \
         build-essential pkg-config ccache clang lld gdb bison flex perl python3 \
         python3-pip python3-venv python3-dev libxml2-dev zlib1g-dev doxygen \
         graphviz xdg-utils libdw-dev x11-apps xterm  mpi-default-dev libopenscenegraph-dev\
-        locales console-setup keyboard-configuration  x11-xkb-utils swig cmake vim x11-xserver-utils && \
-    apt-get clean && \
-    apt-get install -y --no-install-recommends qt6-base-dev qt6-base-dev-tools qmake6 libqt6svg6 qt6-wayland libwebkit2gtk-4.1-0 \ 
-        libxcb-cursor0 \
-        xorg-dev libglfw3 libglfw3-dev freeglut3-dev
+        locales console-setup keyboard-configuration  x11-xkb-utils swig cmake vim x11-xserver-utils texlive-full texlive-latex-recommended\
+        qt6-base-dev qt6-base-dev-tools qmake6 libqt6svg6 qt6-wayland libwebkit2gtk-4.1-0\ 
+        libxcb-cursor0 xorg-dev libglfw3 libglfw3-dev freeglut3-dev &&\
+        apt-get clean && apt-get autoclean && apt-get autoremove -y && \
+        rm -rf /var/lib/apt/lists/* /var/cache/apt/archives
 
 WORKDIR /root
-
 RUN wget https://github.com/omnetpp/omnetpp/releases/download/omnetpp-$VERSION/omnetpp-$VERSION-linux-$ARCH.tgz \
          --referer=https://omnetpp.org/ -O omnetpp-core.tgz --progress=dot:giga && \
-         tar xf omnetpp-core.tgz && rm omnetpp-core.tgz
+         tar xf omnetpp-core.tgz && rm omnetpp-core.tgz && mv omnetpp-$VERSION omnetpp
 
-RUN mv omnetpp-$VERSION omnetpp
 WORKDIR /root/omnetpp
 ENV PATH=/root/omnetpp/bin:$PATH
 RUN python3 -m venv .venv --upgrade-deps --clear --prompt "omnetpp/.venv" && \
@@ -44,8 +38,6 @@ RUN python3 -m venv .venv --upgrade-deps --clear --prompt "omnetpp/.venv" && \
     source ./setenv && \
     ./configure WITH_LIBXML=yes WITH_OSG=yes WITH_OSGEARTH=no CXXFLAGS=-std=c++17 && \
     make -j $(nproc)
-
-#INET
 
 WORKDIR /root/omnetpp/samples
 
@@ -86,11 +78,5 @@ RUN echo 'xterm*faceSize: 14' >> /root/.Xresources && \
     echo "keyboard-configuration  keyboard-configuration/variantcode string " | debconf-set-selections && \
     dpkg-reconfigure -f noninteractive keyboard-configuration  && \
     echo "setxkbmap tr" >>  ~/.bashrc
-
-RUN export DEBIAN_FRONTEND=noninteractive &&  \
-    apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-gete clean -y && \
-    apt-get install -y --no-install-recommends texlive-full texlive-latex-recommended
 
 CMD ["xterm"]

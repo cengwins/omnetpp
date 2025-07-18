@@ -20,9 +20,9 @@ jobs:
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
           if [ "$platform" = "linux/arm64" ]; then
-            echo "ARCH=aarch64" >> $GITHUB_ENV
+            echo "BUILDARCH=aBUILDARCH64" >> $GITHUB_ENV
           elif [ "$platform" = "linux/amd64" ]; then
-            echo "ARCH=x86_64" >> $GITHUB_ENV
+            echo "BUILDARCH=x86_64" >> $GITHUB_ENV
           fi
         
 
@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push multi-arch image
+      - name: Build and push multi-BUILDARCH image
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -51,4 +51,5 @@ jobs:
           build-args: |
             VERSION=6.2.0
             INET_VERSION=4.5.4
+            BUILDARCH=${{ env.BUILDARCH }}
 

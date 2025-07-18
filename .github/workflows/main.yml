@@ -51,5 +51,5 @@ jobs:
           build-args: |
             VERSION=6.2.0
             INET_VERSION=4.5.4
-            BUILDARCH=${{ env.BUILDARCH }}
+            ARCH=${{ env.BUILDARCH }}
 

@@ -5,9 +5,13 @@ SHELL ["/bin/bash", "-exo", "pipefail", "-c"]
 
 ARG VERSION
 ARG INET_VERSION
-ARG BUILDARCH
+ARG ARCH
 ENV LANG=tr_TR.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
+
+RUN echo "Building for architecture: $ARCH" && \
+    echo "OMNeT++ version: $VERSION" && \
+    echo "INET version: $INET_VERSION"
 
 RUN export DEBIAN_FRONTEND=noninteractive &&  \
     apt-get update -y && \
@@ -27,7 +31,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&  \
 
 WORKDIR /root
 
-RUN wget https://github.com/omnetpp/omnetpp/releases/download/omnetpp-$VERSION/omnetpp-$VERSION-linux-$BUILDARCH.tgz \
+RUN wget https://github.com/omnetpp/omnetpp/releases/download/omnetpp-$VERSION/omnetpp-$VERSION-linux-$ARCH.tgz \
          --referer=https://omnetpp.org/ -O omnetpp-core.tgz --progress=dot:giga && \
          tar xf omnetpp-core.tgz && rm omnetpp-core.tgz
 

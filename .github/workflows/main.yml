@@ -20,7 +20,7 @@ jobs:
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
           if [ "$platform" = "linux/arm64" ]; then
-            echo "BUILDARCH=aBUILDARCH64" >> $GITHUB_ENV
+            echo "BUILDARCH=aarch64" >> $GITHUB_ENV
           elif [ "$platform" = "linux/amd64" ]; then
             echo "BUILDARCH=x86_64" >> $GITHUB_ENV
           fi

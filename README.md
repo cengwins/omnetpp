@@ -1,10 +1,11 @@
 # OmNet++ Development Environment
 
-Docker image working on Ubuntu 24.04, full fledge OmNet++ and INET versions. We integrated LaTeX build environment as well.
+Docker image working on Ubuntu 24.04, full fledge OmNet++ and INET versions.
 
 ## Versions
+
 - OmNet++ Version: 6.2.0
-- INET Verdion: 4.5.4
+- INET Version: 4.5.4
 
 ## Disclaimer
 

@@ -19,8 +19,8 @@ RUN export DEBIAN_FRONTEND=noninteractive &&  \
         build-essential pkg-config ccache clang lld gdb bison flex perl python3 \
         python3-pip python3-venv python3-dev libxml2-dev zlib1g-dev doxygen \
         graphviz xdg-utils libdw-dev x11-apps xterm  mpi-default-dev libopenscenegraph-dev\
-        locales console-setup keyboard-configuration  x11-xkb-utils swig cmake vim x11-xserver-utils texlive-full texlive-latex-recommended\
-        qt6-base-dev qt6-base-dev-tools qmake6 libqt6svg6 qt6-wayland libwebkit2gtk-4.1-0\ 
+        locales console-setup keyboard-configuration  x11-xkb-utils swig cmake vim x11-xserver-utils \
+        qt6-base-dev qt6-base-dev-tools qmake6 libqt6svg6 qt6-wayland libwebkit2gtk-4.1-0 \
         libxcb-cursor0 xorg-dev libglfw3 libglfw3-dev freeglut3-dev &&\
         apt-get clean && apt-get autoclean && apt-get autoremove -y && \
         rm -rf /var/lib/apt/lists/* /var/cache/apt/archives

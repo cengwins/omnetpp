@@ -87,6 +87,10 @@ RUN echo 'xterm*faceSize: 14' >> /root/.Xresources && \
     dpkg-reconfigure -f noninteractive keyboard-configuration  && \
     echo "setxkbmap tr" >>  ~/.bashrc
 
-RUN apt -y update && apt install -y texlive-full texlive-latex-recommended
+RUN export DEBIAN_FRONTEND=noninteractive &&  \
+    apt-get update -y && \
+    apt-get upgrade -y && \
+    apt-gete clean -y && \
+    apt-get install -y --no-install-recommends texlive-full texlive-latex-recommended
 
 CMD ["xterm"]
